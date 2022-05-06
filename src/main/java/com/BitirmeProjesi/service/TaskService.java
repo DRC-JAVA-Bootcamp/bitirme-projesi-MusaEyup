@@ -1,19 +1,24 @@
 package com.BitirmeProjesi.service;
 
 import com.BitirmeProjesi.dto.request.TaskSaveRequestDto;
+import com.BitirmeProjesi.dto.request.TaskUpdateRequestDto;
+import com.BitirmeProjesi.dto.response.TaskResponseDto;
 import com.BitirmeProjesi.entity.Task;
 
 import java.util.List;
 
 public interface TaskService {
 
-    List<Task> getAllTasks();
+    List<TaskResponseDto> getAllTasks();
+    List<TaskResponseDto> getAllNotDeletedTasks();
 
-    Task getTaskById(Long id);
+    TaskResponseDto getTaskById(Long id);
 
     Long deleteTaskById(Long id);
 
-    Task addNewTask(TaskSaveRequestDto taskSaveRequestDto);
+    TaskResponseDto addNewTask(TaskSaveRequestDto taskSaveRequestDto);
+
+    TaskResponseDto update(Long id, TaskUpdateRequestDto taskUpdateRequestDto);
 
 
 }

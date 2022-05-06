@@ -2,18 +2,17 @@ package com.BitirmeProjesi.controller;
 
 import com.BitirmeProjesi.dao.TaskRepository;
 import com.BitirmeProjesi.dto.request.TaskSaveRequestDto;
+import com.BitirmeProjesi.dto.request.TaskUpdateRequestDto;
 import com.BitirmeProjesi.dto.response.TaskResponseDto;
 import com.BitirmeProjesi.entity.Task;
 import com.BitirmeProjesi.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
-import java.util.Date;
+
 import java.util.List;
 
 @RestController
@@ -25,28 +24,40 @@ public class TaskController {
     @Autowired
     TaskService taskService;
 
-    @GetMapping
-    public ResponseEntity<List<Task>> add(){
 
-        List<Task> allTasks = taskService.getAllTasks();
+    @GetMapping("/")
+    public ResponseEntity<List<TaskResponseDto>> getNotDeleted(){
+
+        List<TaskResponseDto> allTasks = taskService.getAllNotDeletedTasks();
+        return new ResponseEntity<>(allTasks, HttpStatus.OK);
+
+    }
+    @GetMapping("/all")
+    public ResponseEntity<List<TaskResponseDto>> getAll(){
+
+        List<TaskResponseDto> allTasks = taskService.getAllTasks();
         return new ResponseEntity<>(allTasks, HttpStatus.OK);
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getById(@PathVariable Long id){
+    public ResponseEntity<TaskResponseDto> getById(@PathVariable Long id){
 
-        Task taskById = taskService.getTaskById(id);
+        TaskResponseDto taskById = taskService.getTaskById(id);
         return new ResponseEntity<>(taskById, HttpStatus.OK);
 
     }
 
-
     @PostMapping("/")
-    public ResponseEntity<Task> addNewTask(@Valid @RequestBody TaskSaveRequestDto taskSaveRequestDto){
-        Task task = taskService.addNewTask(taskSaveRequestDto);
+    public ResponseEntity<TaskResponseDto> addNewTask(@Valid @RequestBody TaskSaveRequestDto taskSaveRequestDto){
+        TaskResponseDto task = taskService.addNewTask(taskSaveRequestDto);
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<TaskResponseDto> updateTask(@PathVariable Long id, @RequestBody TaskUpdateRequestDto taskUpdateRequestDto){
 
+        TaskResponseDto updated = taskService.update(id, taskUpdateRequestDto);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
 }
