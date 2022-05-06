@@ -11,8 +11,6 @@ import com.BitirmeProjesi.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,15 +43,24 @@ public class TaskServiceImpl implements TaskService {
 
         Optional<Task> byId = taskRepository.findById(id);
 
-        if(byId.isPresent())
-            return  converter.convertFromTaskToTaskResponseDto(byId.get());
-        else
+        if(byId.isEmpty())
             throw new TaskNotFoundException("Task with id " + id + " not found!!");
+
+        return  converter.convertFromTaskToTaskResponseDto(byId.get());
     }
 
     @Override
     public Long deleteTaskById(Long id) {
-        return null;
+
+        Optional<Task> task = taskRepository.findById(id);
+        if(task.isEmpty())
+            throw new TaskNotFoundException("Task with id " + id + " not found!!");
+
+        Task task1 = task.get();
+        task1.setDeleted(true);
+        taskRepository.save(task1);
+        return id;
+
     }
 
     @Override
@@ -77,5 +84,17 @@ public class TaskServiceImpl implements TaskService {
         task = taskRepository.save(task);
         return converter.convertFromTaskToTaskResponseDto(task);
 
+    }
+
+    @Override
+    public Long completeTask(Long id) {
+        Optional<Task> task = taskRepository.findById(id);
+        if(task.isEmpty())
+            throw new TaskNotFoundException("Task with id " + id + " not found!!");
+
+        Task task1 = task.get();
+        task1.setCompleted(true);
+        taskRepository.save(task1);
+        return id;
     }
 }

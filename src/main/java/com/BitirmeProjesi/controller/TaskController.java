@@ -4,7 +4,6 @@ import com.BitirmeProjesi.dao.TaskRepository;
 import com.BitirmeProjesi.dto.request.TaskSaveRequestDto;
 import com.BitirmeProjesi.dto.request.TaskUpdateRequestDto;
 import com.BitirmeProjesi.dto.response.TaskResponseDto;
-import com.BitirmeProjesi.entity.Task;
 import com.BitirmeProjesi.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,4 +59,19 @@ public class TaskController {
         TaskResponseDto updated = taskService.update(id, taskUpdateRequestDto);
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
+
+    @PutMapping("/complete/{id}")
+    public ResponseEntity<Long> completeTask(@PathVariable Long id){
+
+        Long ID = taskService.completeTask(id);
+        return new ResponseEntity<>(ID, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Long> deleteTaskById(@PathVariable Long id){
+        Long ID = taskService.deleteTaskById(id);
+        return new ResponseEntity<>(ID, HttpStatus.OK);
+    }
+
+
 }

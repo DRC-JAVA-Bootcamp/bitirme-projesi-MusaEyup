@@ -3,7 +3,7 @@ package com.BitirmeProjesi.service;
 import com.BitirmeProjesi.dto.request.TaskSaveRequestDto;
 import com.BitirmeProjesi.dto.request.TaskUpdateRequestDto;
 import com.BitirmeProjesi.dto.response.TaskResponseDto;
-import com.BitirmeProjesi.entity.Task;
+
 
 import java.util.List;
 
@@ -20,5 +20,5 @@ public interface TaskService {
 
     TaskResponseDto update(Long id, TaskUpdateRequestDto taskUpdateRequestDto);
 
-
+    Long completeTask(Long id);
 }
