@@ -5,10 +5,13 @@ import javax.validation.ConstraintValidatorContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
-public class CustomDateValidator implements ConstraintValidator<CustomDateConstraint, LocalDate> {
-    private static final String DATE_PATTERN = "dd-MM-yyyy";
+public class CustomDateValidator implements ConstraintValidator<CustomDateConstraint, LocalDateTime> {
+    private static final String DATE_PATTERN = "yyyy-MM-dd HH:mm";
 
     @Override
     public void initialize(CustomDateConstraint constraintAnnotation) {
@@ -16,7 +19,7 @@ public class CustomDateValidator implements ConstraintValidator<CustomDateConstr
     }
 
     @Override
-    public boolean isValid(LocalDate value, ConstraintValidatorContext context) {
+    public boolean isValid(LocalDateTime value, ConstraintValidatorContext context) {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
         try
         {

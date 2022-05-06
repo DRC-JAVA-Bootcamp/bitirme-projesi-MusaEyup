@@ -1,35 +1,21 @@
-package com.BitirmeProjesi.entity;
+package com.BitirmeProjesi.dto.response;
 
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 import java.time.LocalDateTime;
 
-@Entity
-@Table
 @Data
-public class Task {
+@AllArgsConstructor
+public class TaskResponseDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column
     private String title;
-
-    @Column
     private String description;
-
-    @Column
     private LocalDateTime date;
-
-    @Column
     private boolean isCompleted;
-
-    @Column
     private boolean isDeleted;
-
-
-
 
 }
